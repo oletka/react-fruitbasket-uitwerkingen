@@ -1,0 +1,15 @@
+article {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    border: 1px solid black;
+    border-radius: 4px;
+    margin: 8px;
+    padding: 4px 8px;
+    width: 300px;
+}
+
+article button {
+    margin: 0 8px;
+    font-size: 16px;
+}
