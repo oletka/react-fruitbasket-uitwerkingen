@@ -8,6 +8,9 @@ function App() {
   const [apples, setApples] = useState(0);
   const [kiwis, setKiwis] = useState(0);
 
+  const { handleSubmit, register, errors, watch } = useForm();
+  const selectedDelivery = watch('delivery');
+
   function resetFruits() {
     setStrawberries(0);
     setBananas(0);
@@ -15,20 +18,18 @@ function App() {
     setKiwis(0);
   }
 
-  const { register, watch, handleSubmit, errors } = useForm();
-  const selectedDelivery = watch('delivery');
-
   function onSubmit(data) {
     console.log(data);
+    console.log(`Fruitmand bestelling - aardbeiden: ${strawberries}, bananen: ${bananas}, appels: ${apples}, kiwi's: ${kiwis}`)
   }
 
   return (
     <>
       <h1>Fruitmand bezorgservice</h1>
-      <div className="fruit-counters">
+      <section className="fruit-counters">
         <article>
-          <h2>🍓 Aarbeien</h2>
-          <button type="button" onClick={() => setStrawberries(strawberries - 1)}>
+          <h2>🍓 Aardbeien</h2>
+          <button type="button" disabled={strawberries === 0} onClick={() => setStrawberries(strawberries - 1)}>
             -
           </button>
           <p>{strawberries}</p>
@@ -38,7 +39,7 @@ function App() {
         </article>
         <article>
           <h2>🍌 Bananen</h2>
-          <button type="button" onClick={() => setBananas(bananas - 1)}>
+          <button type="button" disabled={bananas === 0} onClick={() => setBananas(bananas - 1)}>
             -
           </button>
           <p>{bananas}</p>
@@ -48,7 +49,7 @@ function App() {
         </article>
         <article>
           <h2>🍏 Appels</h2>
-          <button type="button" onClick={() => setApples(apples - 1)}>
+          <button type="button"  disabled={apples === 0} onClick={() => setApples(apples - 1)}>
             -
           </button>
           <p>{apples}</p>
@@ -58,7 +59,7 @@ function App() {
         </article>
         <article>
           <h2>🥝 Kiwi's</h2>
-          <button type="button" onClick={() => setKiwis(kiwis - 1)}>
+          <button type="button"  disabled={kiwis === 0} onClick={() => setKiwis(kiwis - 1)}>
             -
           </button>
           <p>{kiwis}</p>
@@ -67,7 +68,7 @@ function App() {
           </button>
         </article>
         <button type="button" onClick={() => resetFruits()}>Reset</button>
-      </div>
+      </section>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <section>
@@ -78,7 +79,7 @@ function App() {
             type="text"
             ref={register({ required: true })}
           />
-          {errors.firstName && <p>Voornaam is verplicht</p>}
+          {errors.firstName && <p className="error">Voornaam is verplicht</p>}
         </section>
         <section>
           <label htmlFor="lastName">Achternaam</label>
@@ -88,7 +89,7 @@ function App() {
             type="text"
             ref={register({ required: true })}
           />
-          {errors.lastName && <p>Achternaam is verplicht</p>}
+          {errors.lastName && <p className="error">Achternaam is verplicht</p>}
         </section>
         <section>
           <label htmlFor="age">Leeftijd</label>
@@ -98,7 +99,7 @@ function App() {
             type="number"
             ref={register({ required: true, min: 18 })}
           />
-          {errors.age && <p>Minimaal 18 jaar</p>}
+          {errors.age && <p className="error">Minimaal 18 jaar</p>}
         </section>
         <section>
           <label htmlFor="zipCode">Postcode</label>
@@ -108,9 +109,11 @@ function App() {
             type="text"
             ref={register({ required: true, pattern: /^[0-9]{4}[a-zA-Z]{2}$/ })}
           />
-          {errors.zipCode && <p>Postcode klopt niet</p>}
+          {errors.zipCode && <p className="error">Postcode klopt niet</p>}
         </section>
-        <label>Bezorgfrequentie</label>
+        <section>
+          <label>Bezorgfrequentie</label>
+        </section>
         <section>
           <input
             ref={register({ required: true })}

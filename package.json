@@ -36,6 +36,6 @@
     ]
   },
   "devDependencies": {
-    "react-hook-form": "^6.15.4"
+    "react-hook-form": "^6.15.5"
   }
 }
