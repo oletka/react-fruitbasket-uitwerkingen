@@ -88,7 +88,7 @@ function App() {
         <section>
           <label htmlFor="firstname-field">Voornaam</label>
           <input
-            name="firstname-field"
+            name="firstname"
             id="firstname-field"
             type="text"
             value={firstname}
@@ -98,7 +98,7 @@ function App() {
         <section>
           <label htmlFor="lastname-field">Achternaam</label>
           <input
-            name="lastname-field"
+            name="lastname"
             id="lastname-field"
             type="text"
             value={lastname}
@@ -108,7 +108,7 @@ function App() {
         <section>
           <label htmlFor="age-field">Leeftijd</label>
           <input
-            name="age-field"
+            name="age"
             id="age-field"
             type="number"
             value={age}
@@ -118,7 +118,7 @@ function App() {
         <section>
           <label htmlFor="zipcode-field">Postcode</label>
           <input
-            name="zipcode-field"
+            name="zipcode"
             id="zipcode-field"
             type="text"
             value={zipcode}
@@ -130,7 +130,8 @@ function App() {
         </section>
         <section>
           <select
-            name="delivery-field" id="delivery-field"
+            name="delivery"
+            id="delivery-field"
             value={deliveryFrequency}
             onChange={(e) => toggleDeliveryFrequency(e.target.value)}
           >
@@ -143,7 +144,7 @@ function App() {
         <input
           type="radio"
           value="daytime"
-          name="timeslot-field"
+          name="timeslot"
           id="timeslot-field-daytime"
           checked={deliveryTimeslot === 'daytime'}
           onChange={(e) => toggleDeliveryTimeslot(e.target.value)}
@@ -154,7 +155,7 @@ function App() {
             value="evening"
             checked={deliveryTimeslot === 'evening'}
             onChange={(e) => toggleDeliveryTimeslot(e.target.value)}
-            name="timeslot-field"
+            name="timeslot"
             id="timeslot-field-evening"
           />
           <label htmlFor="timeslot-field-evening">'s Avonds</label>
@@ -162,7 +163,7 @@ function App() {
         <section>
           <label htmlFor="remark-field">Opmerking</label>
           <textarea
-            name="remark-field"
+            name="remark"
             id="remark-field"
             value={remark}
             onChange={(e) => setRemark(e.target.value)}
@@ -173,10 +174,10 @@ function App() {
         <section>
           <input
             type="checkbox"
-            name="agree-field"
+            name="agree"
             id="agree-field"
             value={agreeTerms}
-            onChange={() => toggleAgreeTerms(!agreeTerms)}
+            onChange={(e) => toggleAgreeTerms(e.target.checked)}
           />
           <label htmlFor="agree-field">Ik ga akkoord met de voorwaarden</label>
         </section>
