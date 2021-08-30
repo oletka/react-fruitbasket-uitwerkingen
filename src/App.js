@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import './App.css';
 
 function App() {
@@ -8,8 +7,14 @@ function App() {
   const [apples, setApples] = useState(0);
   const [kiwis, setKiwis] = useState(0);
 
-  const { handleSubmit, register, errors, watch } = useForm();
-  const selectedDelivery = watch('delivery');
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [age, setAge] = useState(0);
+  const [zipcode, setZipcode] = useState('');
+  const [deliveryFrequency, toggleDeliveryFrequency] = useState('week');
+  const [deliveryTimeslot, toggleDeliveryTimeslot] = useState('daytime');
+  const [remark, setRemark] = useState('');
+  const [agreeTerms, toggleAgreeTerms] = useState(false);
 
   function resetFruits() {
     setStrawberries(0);
@@ -18,9 +23,18 @@ function App() {
     setKiwis(0);
   }
 
-  function onSubmit(data) {
-    console.log(data);
-    console.log(`Fruitmand bestelling - aardbeiden: ${strawberries}, bananen: ${bananas}, appels: ${apples}, kiwi's: ${kiwis}`)
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log(`
+    Voornaam: ${firstname}, 
+    Achternaam: ${lastname}, 
+    Leeftijd: ${age}, 
+    Postcode: ${zipcode}, 
+    Bezorgfrequentie: ${deliveryFrequency},
+    Opmerkingen: ${remark},
+    Algemene voorwaarden: ${agreeTerms}
+    `);
+    console.log(`Fruitmand bestelling - aardbeiden: ${strawberries}, bananen: ${bananas}, appels: ${apples}, kiwi's: ${kiwis}`);
   }
 
   return (
@@ -49,7 +63,7 @@ function App() {
         </article>
         <article>
           <h2>🍏 Appels</h2>
-          <button type="button"  disabled={apples === 0} onClick={() => setApples(apples - 1)}>
+          <button type="button" disabled={apples === 0} onClick={() => setApples(apples - 1)}>
             -
           </button>
           <p>{apples}</p>
@@ -59,7 +73,7 @@ function App() {
         </article>
         <article>
           <h2>🥝 Kiwi's</h2>
-          <button type="button"  disabled={kiwis === 0} onClick={() => setKiwis(kiwis - 1)}>
+          <button type="button" disabled={kiwis === 0} onClick={() => setKiwis(kiwis - 1)}>
             -
           </button>
           <p>{kiwis}</p>
@@ -70,107 +84,88 @@ function App() {
         <button type="button" onClick={() => resetFruits()}>Reset</button>
       </section>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit}>
         <section>
-          <label htmlFor="firstName">Voornaam</label>
+          <label htmlFor="firstname-field">Voornaam</label>
           <input
-            name="firstName"
-            id="firstName"
+            name="firstname-field"
+            id="firstname-field"
             type="text"
-            ref={register({ required: true })}
+            value={firstname}
+            onChange={(e) => setFirstname(e.target.value)}
           />
-          {errors.firstName && <p className="error">Voornaam is verplicht</p>}
         </section>
         <section>
-          <label htmlFor="lastName">Achternaam</label>
+          <label htmlFor="lastname-field">Achternaam</label>
           <input
-            name="lastName"
-            id="lastName"
+            name="lastname-field"
+            id="lastname-field"
             type="text"
-            ref={register({ required: true })}
+            value={lastname}
+            onChange={(e) => setLastname(e.target.value)}
           />
-          {errors.lastName && <p className="error">Achternaam is verplicht</p>}
         </section>
         <section>
-          <label htmlFor="age">Leeftijd</label>
+          <label htmlFor="age-field">Leeftijd</label>
           <input
-            name="age"
-            id="age"
+            name="age-field"
+            id="age-field"
             type="number"
-            ref={register({ required: true, min: 18 })}
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
           />
-          {errors.age && <p className="error">Minimaal 18 jaar</p>}
         </section>
         <section>
-          <label htmlFor="zipCode">Postcode</label>
+          <label htmlFor="zipcode-field">Postcode</label>
           <input
-            name="zipCode"
-            id="zipCode"
+            name="zipcode-field"
+            id="zipcode-field"
             type="text"
-            ref={register({ required: true, pattern: /^[0-9]{4}[a-zA-Z]{2}$/ })}
+            value={zipcode}
+            onChange={(e) => setZipcode(e.target.value)}
           />
-          {errors.zipCode && <p className="error">Postcode klopt niet</p>}
         </section>
         <section>
-          <label>Bezorgfrequentie</label>
+          <label htmlFor="delivery-field">Bezorgfrequentie</label>
         </section>
         <section>
+          <select
+            name="delivery-field" id="delivery-field"
+            value={deliveryFrequency}
+            onChange={(e) => toggleDeliveryFrequency(e.target.value)}
+          >
+            <option value="week">Iedere week</option>
+            <option value="two-week">Om de week</option>
+            <option value="month">Iedere maand</option>
+          </select>
+        </section>
+        <section>
+        <input
+          type="radio"
+          value="daytime"
+          name="timeslot-field"
+          id="timeslot-field-daytime"
+          checked={deliveryTimeslot === 'daytime'}
+          onChange={(e) => toggleDeliveryTimeslot(e.target.value)}
+        />
+        <label htmlFor="timeslot-field-daytime">Overdag</label>
           <input
-            ref={register({ required: true })}
             type="radio"
-            value="week"
-            name="delivery"
-            id="delivery-week"
+            value="evening"
+            checked={deliveryTimeslot === 'evening'}
+            onChange={(e) => toggleDeliveryTimeslot(e.target.value)}
+            name="timeslot-field"
+            id="timeslot-field-evening"
           />
-          <label htmlFor="delivery-week">Iedere week</label>
+          <label htmlFor="timeslot-field-evening">'s Avonds</label>
         </section>
         <section>
-          <input
-            ref={register({ required: true })}
-            type="radio"
-            value="two-week"
-            name="delivery"
-            id="delivery-two-week"
-          />
-          <label htmlFor="delivery-two-week">Om de week</label>
-        </section>
-        <section>
-          <input
-            ref={register({ required: true })}
-            type="radio"
-            value="month"
-            name="delivery"
-            id="delivery-month"
-          />
-          <label htmlFor="delivery-month">Iedere maand</label>
-        </section>
-        <section>
-          <input
-            ref={register({ required: true })}
-            type="radio"
-            value="other"
-            name="delivery"
-            id="delivery-other"
-          />
-          <label htmlFor="delivery-other">Anders</label>
-        </section>
-        {selectedDelivery === 'other' && (
-          <section>
-            <label htmlFor="delivery-other-field">Andere bezorgfrequentie, namelijk:</label>
-            <input
-              ref={register({ required: true })}
-              name="other-delivery"
-              type="text"
-              id="delivery-other-field"
-            />
-          </section>
-        )}
-        <section>
-          <label htmlFor="remark">Opmerking</label>
+          <label htmlFor="remark-field">Opmerking</label>
           <textarea
-            name="remark"
-            id="remark"
-            ref={register}
+            name="remark-field"
+            id="remark-field"
+            value={remark}
+            onChange={(e) => setRemark(e.target.value)}
             rows={6}
             cols={40}
           />
@@ -178,11 +173,12 @@ function App() {
         <section>
           <input
             type="checkbox"
-            name="agree"
-            id="agree"
-            ref={register({ required: true })}
+            name="agree-field"
+            id="agree-field"
+            value={agreeTerms}
+            onChange={() => toggleAgreeTerms(!agreeTerms)}
           />
-          <label htmlFor="agree">Ik ga akkoord met de voorwaarden</label>
+          <label htmlFor="agree-field">Ik ga akkoord met de voorwaarden</label>
         </section>
 
         <button type="submit">Verzend</button>
