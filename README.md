@@ -55,7 +55,7 @@ Zoals je ziet is de styling niet belangrijk, focus je in eerste instantie op de 
     * Opmerking (textarea)
     * Akkoord met de voorwaarden (checkbox)
     * Verzendbutton
-* Pas wanneer de gebruiker op verzenden drukt, worden de formulier-waardes en de fruit-waardes in de console gelogd!
+* Pas wanneer de gebruiker op verzenden drukt, worden de formulier-waardes én de fruit-waardes in de console gelogd!
 
 ## Opdracht 3 - Componenten maken
 Maak eigen componenten van elementen die je heel veel hebt hergebruikt. Om dit voor elkaar te krijgen zul je de state moeten bijhouden in `App.js` en zowel waardes als functies door moeten geven als properties _(callback props)_. Denk hierbij aan:
